@@ -1,0 +1,11 @@
+🌐 Starting Web Monitor...
+📱 Access the dashboard at: https://work-1-jltqpidwmduqrdev.prod-runtime.all-hands.dev
+🔄 The dashboard will auto-refresh every 30 seconds
+💡 Use Ctrl+C to stop the web server
+ * Serving Flask app 'web_monitor'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:12000
+ * Running on http://10.2.79.141:12000
+[33mPress CTRL+C to quit[0m
