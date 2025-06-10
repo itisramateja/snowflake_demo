@@ -7,10 +7,11 @@ This script connects to Snowflake using the provided credentials:
 - Password: Sumajavikhyavihaan1981
 - Warehouse: compute_wh
 - Role: accountadmin
+- Account: ORULGHI-VKC36291
 
-To use this script, you need to:
-1. Replace 'YOUR_ACCOUNT_IDENTIFIER' with your actual Snowflake account identifier
-2. Run the script: python snowflake_connect_rams.py
+To use this script:
+1. Run the script: python snowflake_connect_rams.py
+2. Optionally override account: python snowflake_connect_rams.py <custom_account>
 """
 
 import snowflake.connector
@@ -33,9 +34,11 @@ class SnowflakeConnector:
             'user': 'rams',
             'password': 'Sumajavikhyavihaan1981',
             'warehouse': 'compute_wh',
-            'role': 'accountadmin'
+            'role': 'accountadmin',
+            'account': 'ORULGHI-VKC36291'
         }
         
+        # Allow override of account if provided
         if account_identifier:
             self.connection_params['account'] = account_identifier
         
@@ -207,30 +210,17 @@ def main():
     print(f"  Password: {'*' * 20}")
     print(f"  Warehouse: compute_wh")
     print(f"  Role: accountadmin")
+    print(f"  Account: ORULGHI-VKC36291")
     print("="*70)
     
-    # Check if account identifier is provided as command line argument
+    # Check if account identifier is provided as command line argument to override default
     account_identifier = None
     if len(sys.argv) > 1:
         account_identifier = sys.argv[1]
-        print(f"Using account identifier: {account_identifier}")
+        print(f"Using custom account identifier: {account_identifier}")
     else:
-        print("\n⚠️  IMPORTANT: Account identifier is required!")
-        print("Usage: python snowflake_connect_rams.py <account_identifier>")
-        print("\nAccount identifier formats:")
-        print("  - New accounts: 'organization-account_name'")
-        print("  - Legacy accounts: 'account_name.region.cloud_provider'")
-        print("  - Examples: 'myorg-myaccount' or 'xy12345.us-east-1.aws'")
-        print("\nYou can find your account identifier in:")
-        print("  1. Snowflake web interface URL")
-        print("  2. Welcome email from Snowflake")
-        print("  3. Account admin settings")
-        
-        # Ask user for input
-        account_identifier = input("\nEnter your account identifier: ").strip()
-        if not account_identifier:
-            print("❌ Account identifier is required. Exiting.")
-            return
+        print("Using default account identifier: ORULGHI-VKC36291")
+        print("(You can override this by providing an account identifier as a command line argument)")
     
     # Create connector and attempt connection
     connector = SnowflakeConnector(account_identifier)
