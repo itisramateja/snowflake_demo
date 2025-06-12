@@ -1,0 +1,28 @@
+2025-06-10 15:49:34,380 - INFO - 🔍 Starting patients table check...
+2025-06-10 15:49:34,380 - INFO - Snowflake Connector for Python Version: 3.15.0, Python Version: 3.12.10, Platform: Linux-5.15.0-1078-gke-x86_64-with-glibc2.36
+2025-06-10 15:49:34,380 - INFO - Connecting to GLOBAL Snowflake domain
+2025-06-10 15:49:35,900 - INFO - ================================================================================
+2025-06-10 15:49:35,900 - INFO - PATIENTS TABLE MONITORING ALERT - 2025-06-10 15:49:35
+2025-06-10 15:49:35,900 - INFO - ================================================================================
+2025-06-10 15:49:35,900 - INFO - Initial scan: Found 6 existing records
+2025-06-10 15:49:35,900 - INFO - 
+📋 New Records Details:
+2025-06-10 15:49:35,901 - INFO -    1. ID: 1, Name: ram
+2025-06-10 15:49:35,901 - INFO -    2. ID: 2, Name: ramw
+2025-06-10 15:49:35,901 - INFO -    3. ID: 3, Name: rama
+2025-06-10 15:49:35,901 - INFO -    4. ID: 4, Name: ramv
+2025-06-10 15:49:35,901 - INFO -    5. ID: 5, Name: sin
+2025-06-10 15:49:35,901 - INFO -    6. ID: 6, Name: boo
+2025-06-10 15:49:35,901 - INFO - 
+🕐 Next check scheduled for: 2025-06-10 16:49:35
+2025-06-10 15:49:35,901 - INFO - ================================================================================
+2025-06-10 15:50:18,722 - INFO - 🚀 Starting Patients Table Monitor
+2025-06-10 15:50:18,722 - INFO - 📊 Monitoring: development.patients.patients
+2025-06-10 15:50:18,722 - INFO - ⏰ Check interval: 3600 seconds (1 hour)
+2025-06-10 15:50:18,722 - INFO - 📝 Log file: /workspace/snowflake_demo/patients_monitor.log
+2025-06-10 15:50:18,722 - INFO - 💾 State file: /workspace/snowflake_demo/monitor_state.json
+2025-06-10 15:50:18,723 - INFO - ================================================================================
+2025-06-10 15:50:18,723 - INFO - 🔍 Starting patients table check...
+2025-06-10 15:50:18,723 - INFO - Snowflake Connector for Python Version: 3.15.0, Python Version: 3.12.10, Platform: Linux-5.15.0-1078-gke-x86_64-with-glibc2.36
+2025-06-10 15:50:18,723 - INFO - Connecting to GLOBAL Snowflake domain
+2025-06-10 15:50:19,668 - INFO - ✅ No changes detected. Current count: 6

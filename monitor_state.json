@@ -1,0 +1,31 @@
+{
+  "timestamp": "2025-06-10T15:50:19.577708",
+  "record_count": 6,
+  "max_id": 6,
+  "records": [
+    {
+      "id": 1,
+      "name": "ram"
+    },
+    {
+      "id": 2,
+      "name": "ramw"
+    },
+    {
+      "id": 3,
+      "name": "rama"
+    },
+    {
+      "id": 4,
+      "name": "ramv"
+    },
+    {
+      "id": 5,
+      "name": "sin"
+    },
+    {
+      "id": 6,
+      "name": "boo"
+    }
+  ]
+}
