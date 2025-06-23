@@ -1,0 +1,18 @@
+# Example Terraform variables file
+# Copy this file to terraform.tfvars and customize the values
+
+# EMR Notebook Role name
+role_name = "SHC-EMR-NOTEBOOK-ROLE"
+
+# EMR Assumed Role name
+emr_assumed_role_name = "SHC-EMR-AssumedRole"
+
+# Tags to apply to all resources
+tags = {
+  Name        = "SHC-EMR-ROLES"
+  Description = "IAM roles for EMR with various permissions"
+  Environment = "production"
+  Project     = "EMR-MWAA-Integration"
+  Owner       = "your-team-name"
+  CostCenter  = "your-cost-center"
+}
