@@ -88,3 +88,14 @@ dmypy.json
 # OS
 .DS_Store
 Thumbs.db
+
+# Terraform files
+*.tfstate
+*.tfstate.*
+*.tfvars
+!terraform.tfvars.example
+.terraform/
+.terraform.lock.hcl
+*.tfplan
+crash.log
+crash.*.log
