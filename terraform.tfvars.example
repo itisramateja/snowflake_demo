@@ -12,6 +12,10 @@ project_name = "snowflake_demo"
 recovery_window_in_days = 30
 enable_automatic_rotation = false
 
+# KMS key settings
+kms_deletion_window_in_days = 30
+enable_kms_key_rotation = true
+
 # Common tags applied to all resources
 common_tags = {
   Project     = "snowflake_demo"

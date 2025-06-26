@@ -29,6 +29,24 @@ variable "enable_automatic_rotation" {
   default     = false
 }
 
+# KMS Key Variables
+variable "kms_deletion_window_in_days" {
+  description = "Number of days after which KMS key is deleted after destruction"
+  type        = number
+  default     = 30
+
+  validation {
+    condition     = var.kms_deletion_window_in_days >= 7 && var.kms_deletion_window_in_days <= 30
+    error_message = "KMS deletion window must be between 7 and 30 days."
+  }
+}
+
+variable "enable_kms_key_rotation" {
+  description = "Whether to enable automatic rotation for KMS keys"
+  type        = bool
+  default     = true
+}
+
 variable "common_tags" {
   description = "Common tags to apply to all secrets"
   type        = map(string)

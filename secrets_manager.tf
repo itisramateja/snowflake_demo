@@ -333,3 +333,41 @@ output "secrets_by_type" {
     lookup(config.tags, "Type", "unknown") => name...
   }
 }
+
+# KMS Key Outputs
+output "kms_key_arns" {
+  description = "ARNs of all created KMS keys"
+  value = {
+    for name, key in aws_kms_key.keys : name => key.arn
+  }
+}
+
+output "kms_key_ids" {
+  description = "IDs of all created KMS keys"
+  value = {
+    for name, key in aws_kms_key.keys : name => key.key_id
+  }
+}
+
+output "kms_aliases" {
+  description = "KMS key aliases"
+  value = {
+    for name, alias in aws_kms_alias.key_aliases : name => alias.name
+  }
+}
+
+output "kms_keys_by_service" {
+  description = "KMS keys grouped by service"
+  value = {
+    for name, config in local.kms_keys_config :
+    lookup(config.tags, "Service", "unknown") => name...
+  }
+}
+
+output "kms_keys_by_environment" {
+  description = "KMS keys grouped by environment"
+  value = {
+    for name, config in local.kms_keys_config :
+    lookup(config.tags, "Environment", "unknown") => name...
+  }
+}
