@@ -244,8 +244,14 @@ resource "aws_secretsmanager_secret" "secrets" {
 # These create empty secret versions that can be populated later
 
 /*
-resource "aws_secretsmanager_secret_version" "eventcombo" {
-  secret_id = aws_secretsmanager_secret.eventcombo.id
+# Example: Create secret versions for API credentials
+resource "aws_secretsmanager_secret_version" "api_secrets" {
+  for_each = {
+    for name, config in local.secrets_config : name => config
+    if lookup(config.tags, "Type", "") == "api-credentials"
+  }
+  
+  secret_id = aws_secretsmanager_secret.secrets[each.key].id
   secret_string = jsonencode({
     api_key = "placeholder"
     api_url = "placeholder"
@@ -256,11 +262,20 @@ resource "aws_secretsmanager_secret_version" "eventcombo" {
   }
 }
 
-resource "aws_secretsmanager_secret_version" "providers_api" {
-  secret_id = aws_secretsmanager_secret.providers_api.id
+# Example: Create secret versions for database credentials
+resource "aws_secretsmanager_secret_version" "database_secrets" {
+  for_each = {
+    for name, config in local.secrets_config : name => config
+    if lookup(config.tags, "Type", "") == "database-credentials"
+  }
+  
+  secret_id = aws_secretsmanager_secret.secrets[each.key].id
   secret_string = jsonencode({
-    api_key = "placeholder"
-    api_url = "placeholder"
+    username = "placeholder"
+    password = "placeholder"
+    host     = "placeholder"
+    port     = "placeholder"
+    database = "placeholder"
   })
   
   lifecycle {
@@ -268,7 +283,24 @@ resource "aws_secretsmanager_secret_version" "providers_api" {
   }
 }
 
-# Add more secret versions as needed...
+# Example: Create secret versions for service accounts
+resource "aws_secretsmanager_secret_version" "service_account_secrets" {
+  for_each = {
+    for name, config in local.secrets_config : name => config
+    if lookup(config.tags, "Type", "") == "service-account"
+  }
+  
+  secret_id = aws_secretsmanager_secret.secrets[each.key].id
+  secret_string = jsonencode({
+    username    = "placeholder"
+    password    = "placeholder"
+    account_url = "placeholder"
+  })
+  
+  lifecycle {
+    ignore_changes = [secret_string]
+  }
+}
 */
 
 # Outputs for reference
