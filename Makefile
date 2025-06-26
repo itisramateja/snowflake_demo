@@ -1,17 +1,19 @@
 # Makefile for Terraform operations
-.PHONY: help init plan apply destroy validate format check clean
+.PHONY: help init plan apply destroy validate format check clean plan-secrets plan-kms
 
 # Default target
 help:
 	@echo "Available targets:"
-	@echo "  init      - Initialize Terraform"
-	@echo "  validate  - Validate Terraform configuration"
-	@echo "  format    - Format Terraform files"
-	@echo "  plan      - Create Terraform execution plan"
-	@echo "  apply     - Apply Terraform configuration"
-	@echo "  destroy   - Destroy Terraform-managed infrastructure"
-	@echo "  check     - Run validation and formatting checks"
-	@echo "  clean     - Clean Terraform cache and state backup files"
+	@echo "  init        - Initialize Terraform"
+	@echo "  validate    - Validate Terraform configuration"
+	@echo "  format      - Format Terraform files"
+	@echo "  plan        - Create Terraform execution plan"
+	@echo "  plan-secrets - Plan only Secrets Manager resources"
+	@echo "  plan-kms    - Plan only KMS resources"
+	@echo "  apply       - Apply Terraform configuration"
+	@echo "  destroy     - Destroy Terraform-managed infrastructure"
+	@echo "  check       - Run validation and formatting checks"
+	@echo "  clean       - Clean Terraform cache and state backup files"
 
 # Initialize Terraform
 init:
@@ -57,6 +59,13 @@ clean:
 
 # Development workflow
 dev-setup: init validate format plan
+
+# Plan specific resource types
+plan-secrets:
+	terraform plan -target="aws_secretsmanager_secret.secrets"
+
+plan-kms:
+	terraform plan -target="aws_kms_key.keys" -target="aws_kms_alias.key_aliases"
 
 # Production deployment workflow
 prod-deploy: init validate plan

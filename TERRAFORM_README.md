@@ -1,6 +1,6 @@
-# AWS Secrets Manager Terraform Configuration
+# AWS Secrets Manager & KMS Keys Terraform Configuration
 
-This Terraform configuration manages AWS Secrets Manager secrets for the Snowflake Demo project. It creates and manages 25 different secrets used across various services and environments.
+This Terraform configuration manages AWS Secrets Manager secrets and KMS keys for the Snowflake Demo project. It creates and manages 25 different secrets and 7 KMS keys used across various services and environments.
 
 ## 📁 File Structure
 
@@ -8,6 +8,9 @@ This Terraform configuration manages AWS Secrets Manager secrets for the Snowfla
 ├── providers.tf          # Terraform and AWS provider configuration
 ├── variables.tf          # Variable definitions and defaults
 ├── secrets_manager.tf    # Main secrets configuration
+├── kms_keys.tf           # KMS keys configuration
+├── terraform.tfvars.example # Example configuration file
+├── Makefile              # Common Terraform operations
 └── TERRAFORM_README.md   # This documentation
 ```
 
@@ -51,6 +54,21 @@ This Terraform configuration manages AWS Secrets Manager secrets for the Snowfla
 - `AmazonSageMaker-3f3c404d1fdf49d29b82332c9ea62032` - SageMaker credentials
 - `imo-client` - IMO client credentials
 - `healthy-places` - Healthy Places application credentials
+
+## 🔑 KMS Keys Managed
+
+### MWAA (Managed Workflows for Apache Airflow) Keys
+- `shc-dts-nonprod-mwaa` - SHC DTS non-production MWAA encryption
+- `shc-dts-test-mwaa` - SHC DTS test MWAA encryption
+- `shc-dts-prod-mwaa` - SHC DTS production MWAA encryption
+
+### EKS Cluster Keys
+- `cmk-eks-tawseksprod-cluster` - EKS production cluster encryption
+- `cmk-eks-tawseksdev-cluster` - EKS development cluster encryption
+- `cmk-eks-tawseksqa-cluster` - EKS QA cluster encryption
+
+### SageMaker Keys
+- `shc-ea-sagemaker-key100` - SHC EA SageMaker service encryption
 
 ## 🚀 Usage
 
