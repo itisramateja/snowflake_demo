@@ -5,6 +5,17 @@ Write-Host "KNIME Installation Finder" -ForegroundColor Cyan
 Write-Host "=========================" -ForegroundColor Cyan
 Write-Host ""
 
+# Check current directory first
+Write-Host "Checking current directory..." -ForegroundColor Yellow
+if (Test-Path ".\knime.exe") {
+    Write-Host "✓ Found KNIME in current directory: $(Get-Location)\knime.exe" -ForegroundColor Green
+    Write-Host "  Use: .\knime.exe (note the .\ prefix required by PowerShell)" -ForegroundColor Cyan
+} else {
+    Write-Host "✗ KNIME not found in current directory" -ForegroundColor Red
+}
+
+Write-Host ""
+
 # Check if knime.exe is in PATH
 Write-Host "Checking if KNIME is in system PATH..." -ForegroundColor Yellow
 try {

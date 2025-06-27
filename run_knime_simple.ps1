@@ -15,7 +15,12 @@ function Find-KnimeExecutable {
         return $Path
     }
     
-    # Try to find knime.exe in PATH first
+    # Check current directory first (PowerShell security requires .\ prefix)
+    if (Test-Path ".\knime.exe") {
+        return ".\knime.exe"
+    }
+    
+    # Try to find knime.exe in PATH
     try {
         $knimeInPath = Get-Command "knime.exe" -ErrorAction SilentlyContinue
         if ($knimeInPath) {
