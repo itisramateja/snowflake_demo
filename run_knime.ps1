@@ -19,8 +19,21 @@ param(
 function Test-KnimeExecutable {
     param([string]$Path)
     
-    if (Test-Path $Path) {
+    # If a full path is provided, check if it exists
+    if ($Path -ne "knime.exe" -and (Test-Path $Path)) {
         return $true
+    }
+    
+    # Try to find knime.exe in PATH first
+    try {
+        $knimeInPath = Get-Command "knime.exe" -ErrorAction SilentlyContinue
+        if ($knimeInPath) {
+            Write-Host "Found KNIME in PATH: $($knimeInPath.Source)" -ForegroundColor Green
+            return $knimeInPath.Source
+        }
+    }
+    catch {
+        # Continue to search in common paths
     }
     
     # Try to find knime.exe in common installation paths
@@ -28,13 +41,36 @@ function Test-KnimeExecutable {
         "C:\Program Files\KNIME\knime.exe",
         "C:\Program Files (x86)\KNIME\knime.exe",
         "${env:ProgramFiles}\KNIME\knime.exe",
-        "${env:ProgramFiles(x86)}\KNIME\knime.exe"
+        "${env:ProgramFiles(x86)}\KNIME\knime.exe",
+        "C:\KNIME\knime.exe",
+        "${env:LOCALAPPDATA}\KNIME\knime.exe"
     )
     
+    # Also search for KNIME Analytics Platform directories
+    $knimeSearchPaths = @(
+        "C:\Program Files\KNIME*\knime.exe",
+        "C:\Program Files (x86)\KNIME*\knime.exe",
+        "${env:ProgramFiles}\KNIME*\knime.exe",
+        "${env:ProgramFiles(x86)}\KNIME*\knime.exe"
+    )
+    
+    # Search common paths first
     foreach ($commonPath in $commonPaths) {
         if (Test-Path $commonPath) {
             Write-Host "Found KNIME at: $commonPath" -ForegroundColor Green
             return $commonPath
+        }
+    }
+    
+    # Search with wildcards for versioned installations
+    foreach ($searchPath in $knimeSearchPaths) {
+        $foundPaths = Get-ChildItem -Path (Split-Path $searchPath) -Filter (Split-Path $searchPath -Leaf) -ErrorAction SilentlyContinue
+        if ($foundPaths) {
+            $knimePath = $foundPaths[0].FullName
+            if (Test-Path $knimePath) {
+                Write-Host "Found KNIME at: $knimePath" -ForegroundColor Green
+                return $knimePath
+            }
         }
     }
     
@@ -95,9 +131,21 @@ Write-Host "=============================" -ForegroundColor Cyan
 # Check if KNIME executable exists
 $knimeExe = Test-KnimeExecutable -Path $KnimePath
 if ($knimeExe -eq $false) {
-    Write-Error "KNIME executable not found at: $KnimePath"
-    Write-Host "Please ensure KNIME is installed and provide the correct path using -KnimePath parameter" -ForegroundColor Yellow
-    Write-Host "Example: .\run_knime.ps1 -KnimePath 'C:\Program Files\KNIME\knime.exe'" -ForegroundColor Yellow
+    Write-Host "KNIME executable not found!" -ForegroundColor Red
+    Write-Host ""
+    Write-Host "Common solutions:" -ForegroundColor Yellow
+    Write-Host "1. Install KNIME Analytics Platform from: https://www.knime.com/downloads" -ForegroundColor White
+    Write-Host "2. If KNIME is installed, provide the full path to knime.exe:" -ForegroundColor White
+    Write-Host "   .\run_knime.ps1 -KnimePath 'C:\Program Files\KNIME\knime.exe'" -ForegroundColor Cyan
+    Write-Host "3. Add KNIME to your system PATH environment variable" -ForegroundColor White
+    Write-Host ""
+    Write-Host "Common KNIME installation locations to check:" -ForegroundColor Yellow
+    Write-Host "- C:\Program Files\KNIME\knime.exe" -ForegroundColor White
+    Write-Host "- C:\Program Files (x86)\KNIME\knime.exe" -ForegroundColor White
+    Write-Host "- C:\Program Files\KNIME Analytics Platform*\knime.exe" -ForegroundColor White
+    Write-Host ""
+    Write-Host "To find KNIME on your system, try:" -ForegroundColor Yellow
+    Write-Host "Get-ChildItem -Path 'C:\Program Files*' -Recurse -Name 'knime.exe' -ErrorAction SilentlyContinue" -ForegroundColor Cyan
     exit 1
 } elseif ($knimeExe -ne $true) {
     $KnimePath = $knimeExe

@@ -7,7 +7,21 @@ knime.exe -consoleLog -noexit -nosplash -application org.knime.product.KNIME_BAT
 
 ## Available Scripts
 
-### 1. `run_knime.ps1` (Advanced PowerShell Script)
+### 1. `find_knime.ps1` (KNIME Installation Finder)
+A utility script to locate KNIME installations on your system.
+
+**Features:**
+- Searches system PATH for KNIME
+- Scans common installation directories
+- Provides usage instructions for found installations
+- Guides users through installation if KNIME is not found
+
+**Usage:**
+```powershell
+.\find_knime.ps1
+```
+
+### 2. `run_knime.ps1` (Advanced PowerShell Script)
 A comprehensive PowerShell script with error handling, path detection, and additional options.
 
 **Features:**
@@ -88,10 +102,39 @@ You can extend these scripts with additional KNIME parameters such as:
 
 ## Troubleshooting
 
-1. **"knime.exe not found"**: Ensure KNIME is installed and provide the full path
-2. **"Execution Policy"**: Run `Set-ExecutionPolicy RemoteSigned` in PowerShell as Administrator
-3. **"Access Denied"**: Run the script as Administrator if needed
-4. **Memory Issues**: Add `-vmargs -Xmx4g` to increase memory allocation
+### Common Error: "knime is not recognized as the name of a cmdlet"
+
+This error occurs when KNIME is not in your system PATH. Here are the solutions:
+
+1. **Use the KNIME finder script**:
+   ```powershell
+   .\find_knime.ps1
+   ```
+   This will locate all KNIME installations and show you how to use them.
+
+2. **Specify the full path to KNIME**:
+   ```powershell
+   .\run_knime.ps1 -KnimePath "C:\Program Files\KNIME\knime.exe"
+   ```
+
+3. **Add KNIME to your PATH** (permanent solution):
+   - Open System Properties > Environment Variables
+   - Add the KNIME directory to your PATH variable
+   - Example: `C:\Program Files\KNIME`
+
+### Other Common Issues
+
+1. **"Execution Policy"**: Run `Set-ExecutionPolicy RemoteSigned` in PowerShell as Administrator
+2. **"Access Denied"**: Run the script as Administrator if needed
+3. **Memory Issues**: Add `-vmargs -Xmx4g` to increase memory allocation
+4. **KNIME not installed**: Download from https://www.knime.com/downloads
+
+### Finding KNIME Manually
+
+If the scripts can't find KNIME, you can search manually:
+```powershell
+Get-ChildItem -Path "C:\Program Files*" -Recurse -Name "knime.exe" -ErrorAction SilentlyContinue
+```
 
 ## Examples
 
