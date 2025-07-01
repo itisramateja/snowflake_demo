@@ -1,0 +1,166 @@
+name: "Sales Analytics Semantic Model"
+description: "A semantic model for sales data analysis using Snowflake Cortex Analyst"
+
+# Define the logical tables and their relationships
+tables:
+  - name: "sales_data"
+    description: "Main sales transaction data"
+    base_table: "SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.ORDERS"
+    columns:
+      - name: "order_key"
+        description: "Unique identifier for each order"
+        data_type: "NUMBER"
+        expr: "O_ORDERKEY"
+        
+      - name: "customer_key"
+        description: "Customer identifier"
+        data_type: "NUMBER"
+        expr: "O_CUSTKEY"
+        
+      - name: "order_status"
+        description: "Status of the order"
+        data_type: "VARCHAR"
+        expr: "O_ORDERSTATUS"
+        
+      - name: "total_price"
+        description: "Total price of the order"
+        data_type: "NUMBER"
+        expr: "O_TOTALPRICE"
+        
+      - name: "order_date"
+        description: "Date when the order was placed"
+        data_type: "DATE"
+        expr: "O_ORDERDATE"
+        
+      - name: "order_priority"
+        description: "Priority level of the order"
+        data_type: "VARCHAR"
+        expr: "O_ORDERPRIORITY"
+        
+      - name: "clerk"
+        description: "Clerk who processed the order"
+        data_type: "VARCHAR"
+        expr: "O_CLERK"
+        
+      - name: "ship_priority"
+        description: "Shipping priority"
+        data_type: "NUMBER"
+        expr: "O_SHIPPRIORITY"
+        
+      - name: "comment"
+        description: "Order comments"
+        data_type: "VARCHAR"
+        expr: "O_COMMENT"
+
+  - name: "customer_data"
+    description: "Customer information"
+    base_table: "SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.CUSTOMER"
+    columns:
+      - name: "customer_key"
+        description: "Unique customer identifier"
+        data_type: "NUMBER"
+        expr: "C_CUSTKEY"
+        
+      - name: "customer_name"
+        description: "Customer name"
+        data_type: "VARCHAR"
+        expr: "C_NAME"
+        
+      - name: "customer_address"
+        description: "Customer address"
+        data_type: "VARCHAR"
+        expr: "C_ADDRESS"
+        
+      - name: "nation_key"
+        description: "Nation identifier"
+        data_type: "NUMBER"
+        expr: "C_NATIONKEY"
+        
+      - name: "customer_phone"
+        description: "Customer phone number"
+        data_type: "VARCHAR"
+        expr: "C_PHONE"
+        
+      - name: "account_balance"
+        description: "Customer account balance"
+        data_type: "NUMBER"
+        expr: "C_ACCTBAL"
+        
+      - name: "market_segment"
+        description: "Customer market segment"
+        data_type: "VARCHAR"
+        expr: "C_MKTSEGMENT"
+
+  - name: "nation_data"
+    description: "Nation/country information"
+    base_table: "SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.NATION"
+    columns:
+      - name: "nation_key"
+        description: "Unique nation identifier"
+        data_type: "NUMBER"
+        expr: "N_NATIONKEY"
+        
+      - name: "nation_name"
+        description: "Name of the nation"
+        data_type: "VARCHAR"
+        expr: "N_NAME"
+        
+      - name: "region_key"
+        description: "Region identifier"
+        data_type: "NUMBER"
+        expr: "N_REGIONKEY"
+
+# Define relationships between tables
+relationships:
+  - name: "sales_to_customer"
+    from_table: "sales_data"
+    from_column: "customer_key"
+    to_table: "customer_data"
+    to_column: "customer_key"
+    type: "many_to_one"
+    
+  - name: "customer_to_nation"
+    from_table: "customer_data"
+    from_column: "nation_key"
+    to_table: "nation_data"
+    to_column: "nation_key"
+    type: "many_to_one"
+
+# Define metrics and calculations
+metrics:
+  - name: "total_revenue"
+    description: "Total revenue from all orders"
+    expr: "SUM(total_price)"
+    data_type: "NUMBER"
+    
+  - name: "average_order_value"
+    description: "Average value per order"
+    expr: "AVG(total_price)"
+    data_type: "NUMBER"
+    
+  - name: "order_count"
+    description: "Total number of orders"
+    expr: "COUNT(order_key)"
+    data_type: "NUMBER"
+    
+  - name: "customer_count"
+    description: "Total number of unique customers"
+    expr: "COUNT(DISTINCT customer_key)"
+    data_type: "NUMBER"
+
+# Define dimensions for grouping and filtering
+dimensions:
+  - name: "order_year"
+    description: "Year of the order"
+    expr: "YEAR(order_date)"
+    data_type: "NUMBER"
+    
+  - name: "order_month"
+    description: "Month of the order"
+    expr: "MONTH(order_date)"
+    data_type: "NUMBER"
+    
+  - name: "order_quarter"
+    description: "Quarter of the order"
+    expr: "QUARTER(order_date)"
+    data_type: "NUMBER"
